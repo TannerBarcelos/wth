@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"os"
 
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/tannerbarcelos/wth/lib"
 	"github.com/tannerbarcelos/wth/util"
 )
 
 func main() {
-	api_key, ok := os.LookupEnv("WEATHER_API_KEY")
+	api_key, ok := os.LookupEnv("WTH_API_KEY")
 	if !ok {
 		panic(util.PANIC_ENV_VAR_NOT_SET)
 	}
