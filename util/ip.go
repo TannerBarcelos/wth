@@ -22,5 +22,5 @@ func GetPublicUserIp() (string, error) {
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
 		return "", fmt.Errorf("failed to decode response body: %w", err)
 	}
-	return fmt.Sprintf("public ip: %s\n", result.IP), nil
+	return result.IP, nil
 }
