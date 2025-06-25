@@ -1,17 +1,28 @@
 package main
 
-import "net/http"
+import (
+	"fmt"
+	"os"
+
+	"github.com/tannerbarcelos/wth/lib"
+	"github.com/tannerbarcelos/wth/util"
+)
 
 func main() {
-	url := "http://example.com"
-	res, err := http.Get(url)
+	api_key, ok := os.LookupEnv("WEATHER_API_KEY")
+	if !ok {
+		panic(util.PANIC_ENV_VAR_NOT_SET)
+	}
 
+	location, err := util.ParseArgs()
 	if err != nil {
-		panic(err)
+		panic(fmt.Sprintf("Error parsing arguments: %v", err))
 	}
-	defer res.Body.Close()
 
-	if res.StatusCode != http.StatusOK {
-		panic("Failed to fetch the URL: " + url + " with status code: " + res.Status)
+	weather, err := lib.MakeWeatherRequest(location, api_key)
+	if err != nil {
+		panic(fmt.Sprintf(util.PANIC_API_REQUEST_ERROR, location, err))
 	}
+
+	fmt.Println("Weather data:", weather)
 }
