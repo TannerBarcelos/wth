@@ -10,9 +10,9 @@ import (
 )
 
 // Given a location and an API key, this function makes a request to the Openweather API. Returns the weather data as a string or an error if the request fails.
-func MakeWeatherRequest(location, days, api_key string) (string, error) {
+func MakeWeatherRequest(location string, days int, api_key string) (string, error) {
 	encodedLocation := url.QueryEscape(location)
-	url := fmt.Sprintf("%s?key=%s&q=%s&days=%s", util.BASE_URL, api_key, encodedLocation, days)
+	url := fmt.Sprintf("%s?key=%s&q=%s&days=%d", util.BASE_URL, api_key, encodedLocation, days)
 
 	res, err := http.Get(url)
 
