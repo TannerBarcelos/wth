@@ -4,14 +4,18 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 
 	"github.com/tannerbarcelos/wth/util"
 )
 
 // Given a location and an API key, this function makes a request to the Openweather API. Returns the weather data as a string or an error if the request fails.
 func MakeWeatherRequest(location, days, api_key string) (string, error) {
-	fmt.Println("Making request to OpenWeather API for location:", location)
-	res, err := http.Get(fmt.Sprintf("%s?key=%s&q=%s&days=%s", util.BASE_URL, api_key, location, days))
+	encodedLocation := url.QueryEscape(location)
+	url := fmt.Sprintf("%s?key=%s&q=%s&days=%s", util.BASE_URL, api_key, encodedLocation, days)
+
+	res, err := http.Get(url)
+
 	if err != nil {
 		return "", err
 	}
